@@ -1,0 +1,128 @@
+import processing.serial.*;
+import cc.arduino.*;
+Arduino arduino;
+
+public void setup() {
+  size(500,500);
+  background(255,250,236);
+  arduino = new Arduino(this, Arduino.list()[2], 57600); //change the [0] to a [1] or [2] etc. if your program doesn't work
+}
+
+void mouseClicked() {
+  System.out.println(mouseX);
+  System.out.println(mouseY);
+}
+
+public void draw() {
+  
+  for(int i = 0; i < 16; i++)
+    System.out.print(i+" "+arduino.analogRead(i) + "\t");
+  System.out.println();
+  
+  noStroke();
+  fill(243,221,188);
+  rect(0,350,500,200);
+  
+  //desk
+  rect(50,50,200,200);
+    
+  noStroke();
+  
+  //clock
+  fill(217,211,204);
+  rect(335,325,100,60);
+  fill(234,236,236);
+  rect(345,335,80,40);
+  
+  int rButton = arduino.analogRead(1);
+  
+  if (rButton < 500) {
+     fill(79,94,126);
+     rect(70,70,160,160);
+     
+     //star
+     fill(248,236,201);
+     ellipse(105,140,5,5);
+     ellipse(205,100,5,5);
+     ellipse(135,208,5,5);
+     ellipse(184,173,5,5);
+     ellipse(144,153,5,5);
+     ellipse(174,103,5,5);
+  
+     fill(209,215,215);
+     ellipse(166,115,50,50);
+     
+     fill(0,0,0);
+     textSize(14);
+     text("11 PM",365,360);
+  } 
+  else {
+    //sky
+    fill(211,225,235);
+    rect(70,70,160,160);
+    
+    //sun and clouds
+    fill(250,222,133);
+    ellipse(166,115,50,50);
+  
+    fill(240,240,240);
+    ellipse(118,127,50,40);
+    ellipse(128,108,30,20);
+    ellipse(96,116,30,30);
+    ellipse(93,137,30,20);
+    ellipse(143,131,30,20);
+    
+    fill(0,0,0);
+    textSize(14);
+    text("8 PM",365,360);
+  }
+  
+  
+  fill(243,221,188);
+  rect(300,150,180,20);
+  fill(36,50,90);
+  rect(330,80,20,70);
+  fill(100,119,160);
+  rect(350,100,20,50);
+  fill(57,76,76);
+  rect(370,70,20,80);
+ 
+  
+  fill(217,211,204);
+  rect(77,295,150,137);
+  triangle(77,395,57,432,93,432);
+  triangle(227,395,247,432,206,432);
+  
+  int lButton = arduino.analogRead(6);
+  if (lButton < 500) {
+  //off
+    fill(88,89,91);
+    rect(87,305,130,77);
+  }
+  else {
+  //on
+    fill(0,0,0);
+    rect(87,305,130,77);
+    fill(255,255,255);
+    ellipse(152,343,20,20);
+  }
+  
+  int lightButton = arduino.analogRead(5);
+  
+  if (lightButton < 10) {
+    stroke(0.01);
+    fill(255,255,255);
+    ellipse(380,250,170,90);
+    ellipse(459,286,15,15);
+    ellipse(475,301,15,15);
+    fill(0,0,0);
+    textSize(16);
+    text("5 more minutes...",315,255);  
+    
+  } else {
+    fill(255,250,236);
+    rect(277,201,300,110);
+   
+  }
+  
+}
